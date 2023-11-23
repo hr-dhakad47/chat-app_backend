@@ -14,7 +14,7 @@ let port = 3000
 
 
 
-mongoose.connect("mongodb+srv://abjushsaxena90:ankush123@cluster0.37q9k6c.mongodb.net/chatting?retryWrites=true&w=majority&appName=AtlasApp").then((res)=>{
+mongoose.connect("mongodb+srv://Random404-error:Random404_error@cluster0.zpslsps.mongodb.net/").then((res)=>{
     console.log("database connected")
 }).catch((err)=>{
     console.log(err)
