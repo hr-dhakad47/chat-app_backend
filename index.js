@@ -2,15 +2,17 @@ let express = require("express")
 let mongoose = require("mongoose")
 let userRouter = require("./src/Routes/userRoutes")
 let messageRouter = require("./src/Routes/messagesRoutes")
+const cors = require('cors');
 
 let app = express()
 
 
 app.use(express.json())
+app.use(cors());
 
  
 
-let port = 3000
+let port = 4000
 
 
 
