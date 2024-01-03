@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 
-// console.log(addUserPage)
+console.log(messagePage)
 
 router.post("/addMessage",messagePage.addMessage)
 router.get("/getMessage",messagePage.getMessage)
