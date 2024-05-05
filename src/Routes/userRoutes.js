@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const addUserPage = require("../controler/userControler")
+const UserPage = require("../controler/userControler")
 const sendMessage = require("../controler/messageController")
 
-console.log(addUserPage)
+console.log(UserPage)
 console.log(sendMessage)
 
-router.post("/addUser",addUserPage.addUser)
-router.get("/getUser",addUserPage.getUser)
-router.post("/login",addUserPage.login)
-
+router.post("/addUser",UserPage.addUser)
+router.get("/getUser/:userId",UserPage.getUser)
+router.get("/getUsers",UserPage.getUsers)
+router.post("/login",UserPage.login)
 
 
 

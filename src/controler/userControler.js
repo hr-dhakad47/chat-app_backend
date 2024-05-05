@@ -31,14 +31,22 @@ const addUser = async(req,res)=>{
 
 }
 
-const getUser = async(req,res)=>{
+
+const getUser =  async function (req, res) {
+    const userId = req.params.userId;
+    let user = await UserModel.findById(userId);
+    res.json(user);
+  };
+
+
+const getUsers = async(req,res)=>{
     try{
          let users = await UserModel.find({})
 
          if(users.length != 0)
          {
             return res.status(200).json({
-                mssg:"add Success",
+                mssg:"get Success",
                 status:200,
                 users
     
@@ -60,49 +68,46 @@ const getUser = async(req,res)=>{
 
 }
 
-const login = async(req,res)=>{
-    try
-    {
-        let {email,password} = req.body
-        let users = await UserModel.find({email:email})
-        console.log(users)
-        if(users.length == 0)
-        {
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await UserModel.findOne({ email });
+
+        if (!user) {
             return res.status(400).json({
-                status:400,
-                mssg:"user not found"
-            })
-        }
-        else{
-             bcrypt.compare(req.body.password,users[0].password,(err,result)=>{
-
-                if(result == true)
-                {
-                    return res.status(200).json({
-                        status:200,
-                        mssg:"user login success"
-                    }) 
-                }
-                else
-                {
-                    return res.status(400).json({
-                        status:400,
-                        mssg:"incorrect email and password"
-                    }) 
-                }
-             })
+                status: 400,
+                mssg: "User not found"
+            });
         }
 
-    }
-    catch(err){
-        console.log(err)
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (result) {
+                return res.status(200).json({
+                    status: 200,
+                    mssg: "User login success",
+                    user: {
+                        _id: user._id,
+                        email: user.email,
+                        fullName: user.fullName
+                        // Add other user data if needed
+                    }
+                });
+            } else {
+                return res.status(400).json({
+                    status: 400,
+                    mssg: "Incorrect email or password"
+                });
+            }
+        });
+    } catch (err) {
+        console.log(err);
         res.status(500).json({
-            status:500,
-            message:"server error",
-            err:JSON.stringify(err)
-        })
+            status: 500,
+            mssg: "Server error",
+            err: err.message
+        });
     }
-}
+};
 
 
-module.exports = {addUser,getUser,login}
+module.exports = {addUser,getUser,login,getUsers}
