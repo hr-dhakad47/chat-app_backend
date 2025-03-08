@@ -1,35 +1,34 @@
 const UserModel = require("../models/userModel")
 const bcrypt = require("bcrypt")
 
-const addUser = async(req,res)=>{
-    try{
-        bcrypt.hash(req.body.password,10,async(err, hashPassword)=>{
-            let user = new UserModel({...req.body,password:hashPassword})
-            let isSave = await user.save()
-  
-            if(isSave)
-            {
-             return res.status(200).json({
-                  mssg:"user add successfully",
-                  status:200,
-                  isSave
-              })
-            }
-          })
-         
-    }
-    catch(err)
-    {
-        console.log(err)
+const addUser = async (req, res) => {
+    try {
+        // Hash the password
+        const hashPassword = await bcrypt.hash(req.body.password, 10);
+        
+        // Create new user instance
+        let user = new UserModel({ ...req.body, password: hashPassword });
+        
+        // Save user to the database
+        let savedUser = await user.save();
+
+        if (savedUser) {
+            return res.status(200).json({
+                message: "User added successfully",
+                status: 200,
+                user: savedUser
+            });
+        }
+    } catch (error) {
         return res.status(500).json({
-            mssg:"server error",
-            status:500,
-            err:JSON.stringify(err)
-
-        })
+            message: "Error adding user",
+            status: 500,
+            error: error.message
+        });
     }
+};
 
-}
+// module.exports = addUser;
 
 
 const getUser =  async function (req, res) {

@@ -16,7 +16,7 @@ let port = 4000
 
 
 
-mongoose.connect("mongodb+srv://Random404-error:Random404_error@cluster0.zpslsps.mongodb.net/").then((res)=>{
+mongoose.connect("mongodb+srv://chatapp:chatapp@cluster0.pmr84.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0").then((res)=>{
     console.log("database connected")
 }).catch((err)=>{
     console.log(err)
